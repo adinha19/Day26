@@ -1,18 +1,21 @@
-import React, {Component} from 'react';
+import React from 'react';
+import axios from 'axios';
 
-class GetRequestSetHeaders extends Component {
+class GetRequestSetHeaders extends React.Component {
     constructor(props) {
         super(props);
         this.state = { totalReactPackages: null };
     }
 
     componentDidMount() {
-        const headers = { 'Content-Type': 'application/json'}
-        fetch('https://api.npms.io/v2/search?q=react', { headers })
-            .then(response => response.json())
-            .then(data => this.setState({ totalReactPackages: data.total }));
-    }
+        const headers = { 
+            'Content-Type': 'application/json' 
+        };
 
+        axios.get('https://api.npms.io/v2/search?q=react', { headers })
+            .then(response => this.setState({ totalReactPackages: response.data.total }));
+    }
+    
     render() {
         const { totalReactPackages } = this.state;
         return (
@@ -21,7 +24,7 @@ class GetRequestSetHeaders extends Component {
                 <div className="card-body">Total packages: {totalReactPackages}</div>
             </div>
         );
-    } 
+    }
 }
 
 export default GetRequestSetHeaders;

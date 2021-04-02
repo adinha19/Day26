@@ -1,21 +1,16 @@
-import React, {Component} from 'react';
+import React from 'react';
+import axios from 'axios';
 
-class PostRequest extends Component {
-    constructor(props) {
+class PostRequest extends React.Component {
+     constructor(props) {
         super(props);
         this.state = { articleId: null };
     }
 
     componentDidMount() {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: 'React POST Request Example' })
-        };
-
-        fetch('https://jsonplaceholder.typicode.com/posts', requestOptions)
-            .then(response => response.json())
-            .then(data => this.setState({ articleId: data.id }));
+        const article = { title: 'React POST Request Example' };
+        axios.post('https://reqres.in/api/articles', article)
+            .then(response => this.setState({ articleId: response.data.id }));
     }
 
     render() {
